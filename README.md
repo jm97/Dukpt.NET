@@ -1,12 +1,18 @@
 Dukpt.NET
 =========
+[![sgbj MyGet Build Status](https://www.myget.org/BuildSource/Badge/sgbj?identifier=db407f52-a2d2-49ce-a191-cfee6a422856)](https://www.myget.org/)
 
 Dukpt.NET is a C# implementation of the Derived Unique Key Per Transaction (DUKPT) process that's described in Annex A of ANS X9.24-2004.
+
+To install Dukpt.NET, run the following command in the Package Manager Console:
+```
+PM> Install-Package Dukpt
+```
 
 Usage
 -----
 
-```CSharp
+```
 var test = "%B5452300551227189^HOGAN/PAUL      ^08043210000000725000000?\0\0\0\0";
 
 // Decrypting
@@ -14,7 +20,7 @@ var bdk = "0123456789ABCDEFFEDCBA9876543210";
 var ksn = "FFFF9876543210E00008";
 var track = "C25C1D1197D31CAA87285D59A892047426D9182EC11353C051ADD6D0F072A6CB3436560B3071FC1FD11D9F7E74886742D9BEE0CFD1EA1064C213BB55278B2F12";
 var decBytes = Dukpt.Decrypt(bdk, ksn, BigInt.FromHex(track).GetBytes());
-var decrypted = UTF8Encoding.UTF8.GetString(decBytes);
+var decrypted = Encoding.UTF8.GetString(decBytes);
 Console.WriteLine(decrypted == test); // True
 
 // Encrypting
@@ -29,7 +35,7 @@ Overview
 
 It's no secret that Annex A is hard to understand, and the entire process isn't explained in a manner that's easy to follow or translate into code. One of the reasons it's difficult to understand is that it was written from the perspective of an electrical/computer engineer that would directly implement these instruction on the devices/swipers themselves, and as a result it mentions various registers and operations that most of us don't have much experience with. So it's not necessarily for high-level software developers looking to use the process either for new software, backwards compatibility with existing technology, or logging/testing purposes.
 
-I wrote this implementation of DUKPT for fun as a side project for my work. We already had an existing implementation of DUKPT in the project I'm maintaining, which was no longer being used and hence could be stripped out. However, the old one was convoluted and had well over 500 lines of code with lots of dependencies. This library only has about 100 lines of code and only focuses on DUKPT encryption and decryption. 
+I wrote this implementation of DUKPT for fun. This library only has about 100 lines of code and only focuses on DUKPT encryption and decryption. 
 
 It still amazes me how [scarcely documented](http://security.stackexchange.com/questions/13309/what-is-the-dukpt-key-derivation-function) this process is, even though it seems like a fairly standard practice. Unfortunately, the advice people usually receive it to [purchase the spec](http://webstore.ansi.org/RecordDetail.aspx?sku=ANSI+X9.24-1%3A2009) for $140.
 
